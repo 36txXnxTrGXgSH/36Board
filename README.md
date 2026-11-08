@@ -1,5 +1,8 @@
 # 36Board — clavier AZERTY français pour Android
 
+**[Page de présentation](https://36txxnxtrgxgsh.github.io/36Board/)** ·
+**[Télécharger la dernière version](https://github.com/36txXnxTrGXgSH/36Board/releases/latest)**
+
 Clavier virtuel indépendant, entièrement hors ligne. Une seule permission demandée —
 la vibration des touches — et **aucun accès au réseau** : rien de ce qui est tapé ne
 peut quitter le téléphone.
@@ -13,6 +16,11 @@ peut quitter le téléphone.
   la fréquence. ~2 ms par mot sur JVM.
 - **Dictionnaire français de 150 000 mots** embarqué (Lexique 3.83 + fréquences
   OpenSubtitles), recherche par préfixe insensible aux accents : « ecole » → « école ».
+- **Vocabulaire des messages** : une centaine d'abréviations SMS (`mdr`, `ptdr`, `tkt`,
+  `jsp`…) et d'anglicismes passés dans l'usage (`week-end`, `mail`, `feedback`,
+  `spoiler`…), qui ne sont plus « corrigés » et sont proposés comme les autres mots.
+  Chaque mot, son sens et son registre (familier, jeune, réseaux sociaux…) sont listés
+  dans [`dictionnaire/familier.md`](dictionnaire/familier.md).
 - **Suggestions et correction** : complétion, correction des touches voisines, des
   lettres oubliées, en trop ou inversées, rétablissement des accents.
 - **Apprentissage** : dictionnaire personnel (mots + enchaînements) stocké localement,

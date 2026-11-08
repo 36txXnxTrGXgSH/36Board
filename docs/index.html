@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>36Board — le clavier AZERTY français qui ne quitte jamais votre téléphone</title>
+<meta name="description" content="36Board : un clavier AZERTY français pour Android, entièrement hors ligne. Saisie gestuelle, dictionnaire de 150 000 mots, abréviations SMS et anglicismes, plus de 1 300 emoji, thèmes réglables. Aucune permission réseau : rien de ce que vous tapez ne peut quitter le téléphone.">
+<meta property="og:title" content="36Board — le clavier AZERTY français hors ligne">
+<meta property="og:description" content="Swipe, 150 000 mots, mdr et week-end compris, 1 300 emoji. Aucune permission réseau. Pour Android, en français.">
+<meta property="og:image" content="https://36txxnxtrgxgsh.github.io/36Board/images/ouverture.png">
+<style>
+  :root {
+    --fond: #111215;
+    --fond-2: #17181d;
+    --carte: #1d1f25;
+    --trait: #2c2f37;
+    --texte: #eceef2;
+    --texte-2: #a8adb8;
+    --accent: #63c2b4;
+    --accent-2: #f2b84b;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--fond);
+    color: var(--texte);
+    font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
+  }
+  a { color: var(--accent); }
+  .page { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- en-tête */
+  header.hero {
+    background:
+      radial-gradient(900px 500px at 85% 0%, rgba(99, 194, 180, .16), transparent 70%),
+      radial-gradient(700px 420px at 0% 100%, rgba(242, 184, 75, .12), transparent 70%),
+      var(--fond);
+    border-bottom: 1px solid var(--trait);
+  }
+  .hero .page { padding-top: 72px; padding-bottom: 64px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 48px; align-items: center; }
+  .marque { font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  h1 { font-size: clamp(34px, 5vw, 54px); line-height: 1.08; margin: 12px 0 18px; letter-spacing: -.02em; }
+  .accroche { font-size: 20px; color: var(--texte-2); margin: 0 0 28px; }
+  .boutons { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+  .bouton {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 22px; border-radius: 999px;
+    font-weight: 650; text-decoration: none; font-size: 16px;
+  }
+  .bouton.plein { background: var(--accent); color: #062420; }
+  .bouton.plein:hover { background: #86d6ca; }
+  .bouton.contour { border: 1px solid var(--trait); color: var(--texte); }
+  .bouton.contour:hover { border-color: var(--accent); }
+  .pastilles { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+  .pastilles li {
+    font-size: 14px; color: var(--texte-2);
+    border: 1px solid var(--trait); border-radius: 999px; padding: 5px 12px;
+  }
+
+  /* ---- téléphone de démonstration (la conversation est du HTML, le clavier une vraie image) */
+  .telephone {
+    width: 100%; max-width: 360px; margin: 0 auto;
+    background: #0b0c0e; border: 1px solid var(--trait); border-radius: 36px;
+    padding: 14px 12px 18px; box-shadow: 0 30px 80px rgba(0, 0, 0, .55);
+  }
+  .telephone .barre { display: flex; align-items: center; gap: 10px; padding: 6px 8px 12px; border-bottom: 1px solid #1f2127; }
+  .telephone .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #f2b84b, #e07a5f); }
+  .telephone .nom { font-weight: 650; font-size: 15px; }
+  .telephone .statut { font-size: 12px; color: var(--texte-2); }
+  .fil { display: flex; flex-direction: column; gap: 8px; padding: 14px 6px; font-size: 14.5px; line-height: 1.4; }
+  .bulle { max-width: 80%; padding: 8px 12px; border-radius: 16px; }
+  .bulle.recu { background: #22252c; align-self: flex-start; border-bottom-left-radius: 4px; }
+  .bulle.envoye { background: #1f4d47; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .saisie {
+    margin: 4px 4px 10px; padding: 9px 14px; border-radius: 999px;
+    background: #1b1d22; border: 1px solid #2a2d34; font-size: 14.5px; color: var(--texte);
+  }
+  .saisie .curseur { display: inline-block; width: 2px; height: 1.05em; background: var(--accent); vertical-align: -2px; margin-left: 1px; animation: clignote 1.1s steps(1) infinite; }
+  @keyframes clignote { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .saisie .curseur { animation: none; } }
+  .telephone img { display: block; width: 100%; height: auto; border-radius: 0 0 22px 22px; }
+
+  .ecran {
+    display: block; width: 100%; height: auto;
+    border-radius: 14px; border: 1px solid var(--trait);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .55);
+    background: var(--fond-2);
+  }
+
+  /* ---- sections */
+  section { padding: 72px 0; border-bottom: 1px solid var(--trait); }
+  section:nth-of-type(even) { background: var(--fond-2); }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .duo.inverse > :first-child { order: 2; }
+  h2 { font-size: clamp(26px, 3.2vw, 36px); line-height: 1.15; margin: 0 0 14px; letter-spacing: -.01em; }
+  .chapeau { color: var(--texte-2); font-size: 18px; margin: 0 0 18px; }
+  ul.points { margin: 0; padding-left: 1.1em; }
+  ul.points li { margin: 6px 0; }
+  ul.points li::marker { color: var(--accent); }
+  code { font: 15px ui-monospace, Consolas, monospace; background: var(--carte); border: 1px solid var(--trait); border-radius: 6px; padding: 1px 6px; }
+  .cartes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 28px; }
+  .carte { background: var(--carte); border: 1px solid var(--trait); border-radius: 14px; padding: 20px 22px; }
+  .carte h3 { margin: 0 0 8px; font-size: 18px; }
+  .carte p { margin: 0; color: var(--texte-2); font-size: 16px; }
+  .carte img { display: block; width: 100%; height: auto; border-radius: 10px; margin-bottom: 14px; border: 1px solid var(--trait); }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 16px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--trait); vertical-align: top; }
+  th { color: var(--texte-2); font-weight: 600; }
+  td:first-child { white-space: nowrap; }
+  .registre { display: inline-block; font-size: 13px; padding: 1px 9px; border-radius: 999px; border: 1px solid var(--trait); color: var(--texte-2); margin: 2px 4px 2px 0; }
+
+  .note {
+    border-left: 3px solid var(--accent-2); background: var(--carte);
+    padding: 14px 18px; border-radius: 0 10px 10px 0; color: var(--texte-2); margin-top: 22px;
+  }
+  ol.etapes { padding-left: 1.3em; margin: 0; }
+  ol.etapes li { margin: 8px 0; }
+
+  footer { padding: 40px 0 60px; color: var(--texte-2); font-size: 15px; }
+
+  @media (max-width: 860px) {
+    .hero .page, .duo, .cartes { grid-template-columns: 1fr; }
+    .duo.inverse > :first-child { order: 0; }
+    section { padding: 52px 0; }
+    .hero .page { padding-top: 48px; }
+    td:first-child { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="page">
+    <div>
+      <div class="marque">36Board</div>
+      <h1>Le clavier AZERTY français qui ne quitte jamais votre téléphone</h1>
+      <p class="accroche">Tapez ou tracez vos mots sans lever le doigt, laissez le clavier rétablir
+        les accents et corriger les fautes de frappe, glissez un emoji ou un « mdr » sans qu'il soit
+        « corrigé ». Et soyez tranquille : 36Board n'a <strong>aucune permission réseau</strong>, rien
+        de ce que vous écrivez ne peut sortir de votre téléphone.</p>
+      <div class="boutons">
+        <a class="bouton plein" href="https://github.com/36txXnxTrGXgSH/36Board/releases/latest">Télécharger pour Android</a>
+        <a class="bouton contour" href="https://github.com/36txXnxTrGXgSH/36Board">Voir le code source</a>
+      </div>
+      <ul class="pastilles">
+        <li>AZERTY français</li>
+        <li>Saisie gestuelle</li>
+        <li>150 000 mots</li>
+        <li>Plus de 1 300 emoji</li>
+        <li>Aucune permission réseau</li>
+        <li>Android 8 et plus</li>
+        <li>En français</li>
+      </ul>
+    </div>
+    <div class="telephone" role="img" aria-label="Une conversation en cours : la bande de 36Board propose « week-end » pendant que l'on tape « On se voit ce week »">
+      <div class="barre">
+        <div class="avatar"></div>
+        <div><div class="nom">Camille</div><div class="statut">en ligne</div></div>
+      </div>
+      <div class="fil">
+        <div class="bulle recu">Askip le nouveau film est ouf 🍿</div>
+        <div class="bulle envoye">Grave, j'ai vu la bande-annonce mdr</div>
+        <div class="bulle recu">Tkt je prends les places 😉</div>
+      </div>
+      <div class="saisie">On se voit ce week<span class="curseur"></span></div>
+      <img src="images/ouverture.png" width="1080" height="942"
+           alt="Le clavier 36Board en thème sombre : la bande propose « week », « week-end » mis en avant et « weekend » ; les lettres w, e et k du mot en cours sont colorées en orange">
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="swipe">
+  <div class="page duo">
+    <img class="ecran" src="images/swipe.png" width="1080" height="942" loading="lazy"
+         alt="Le tracé du mot « bonjour » sur le clavier, de la touche b à la touche r ; la bande propose « bonjour », « bonnie » et « boulot »">
+    <div>
+      <h2>Écrire sans lever le doigt</h2>
+      <p class="chapeau">Glissez d'une lettre à l'autre : 36Board reconnaît le mot que vous avez dessiné.</p>
+      <ul class="points">
+        <li>Le tracé est comparé au chemin idéal de chaque mot, en position et en forme, puis pondéré par la fréquence du mot : environ 2 ms par mot.</li>
+        <li>Le mot tracé reste modifiable : une variante dans la bande le remplace d'un coup, <strong>Retour arrière l'efface d'un bloc</strong>.</li>
+        <li>Deux mots tracés à la suite sont séparés tout seuls par une espace, la ponctuation reste collée au mot.</li>
+        <li>Les élisions passent aussi au tracé : « lattaquant » devient « l'attaquant ».</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="propositions">
+  <div class="page duo inverse">
+    <img class="ecran" src="images/clavier-sombre.png" width="1080" height="942" loading="lazy"
+         alt="En tapant « bonj », la bande propose « bonj », « bonjour » mis en avant et « bonjours » ; les lettres b, o, n et j sont colorées sur le clavier">
+    <div>
+      <h2>Des propositions qui parlent français</h2>
+      <p class="chapeau">Un dictionnaire de 150 000 mots embarqué, qui ne demande rien à personne.</p>
+      <table>
+        <tr><th>Vous tapez</th><th>36Board écrit</th></tr>
+        <tr><td><code>ecole</code></td><td>école — les accents sont rétablis</td></tr>
+        <tr><td><code>bonjoyr</code></td><td>bonjour — touche voisine</td></tr>
+        <tr><td><code>bonour</code> · <code>bonjuor</code></td><td>bonjour — lettre oubliée, lettres inversées</td></tr>
+        <tr><td><code>j'ai</code> · <code>aujourd'hui</code></td><td>tels quels — les élisions ne sont jamais « corrigées »</td></tr>
+        <tr><td><code>bonsoir</code></td><td>bonsoir — un mot juste n'est jamais touché</td></tr>
+      </table>
+      <ul class="points" style="margin-top:18px">
+        <li>Le clavier <strong>apprend vos mots</strong> et vos enchaînements, dans un dictionnaire personnel que vous consultez et effacez quand vous voulez.</li>
+        <li>Un mot qui revient toujours à tort ? Un appui long sur la proposition le <strong>bannit</strong>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="messages">
+  <div class="page duo">
+    <img class="ecran" src="images/familier.png" width="1080" height="942" loading="lazy"
+         alt="La bande de 36Board propose « mdr », « ptdr » et « tkt »">
+    <div>
+      <h2>Le langage des messages, sans correction intempestive</h2>
+      <p class="chapeau">Une centaine d'abréviations et d'anglicismes ont rejoint le dictionnaire : ils sont proposés, et plus jamais « corrigés ».</p>
+      <table>
+        <tr><th>Mots</th><th>Registre</th></tr>
+        <tr><td><code>mdr</code> · <code>ptdr</code> · <code>lol</code></td><td><span class="registre">familier</span><span class="registre">réseaux sociaux</span></td></tr>
+        <tr><td><code>tkt</code> · <code>jsp</code> · <code>askip</code></td><td><span class="registre">jeune</span><span class="registre">familier</span></td></tr>
+        <tr><td><code>stp</code> · <code>bcp</code> · <code>dsl</code> · <code>rdv</code></td><td><span class="registre">familier</span></td></tr>
+        <tr><td><code>week-end</code> · <code>mail</code> · <code>wifi</code></td><td><span class="registre">courant</span></td></tr>
+        <tr><td><code>feedback</code> · <code>deadline</code> · <code>meeting</code></td><td><span class="registre">professionnel</span></td></tr>
+        <tr><td><code>spoiler</code> · <code>story</code> · <code>liker</code></td><td><span class="registre">réseaux sociaux</span></td></tr>
+      </table>
+      <p style="color:var(--texte-2);margin-top:16px">La liste complète, avec le sens et le registre de chaque mot, est dans
+        <a href="https://github.com/36txXnxTrGXgSH/36Board/blob/main/dictionnaire/familier.md">dictionnaire/familier.md</a>.
+        Les abréviations grossières n'y sont pas : le clavier les laisse taper, il ne les propose pas.</p>
+    </div>
+  </div>
+</section>
+
+<section id="emoji">
+  <div class="page duo inverse">
+    <img class="ecran" src="images/emoji.png" width="1080" height="942" loading="lazy"
+         alt="Le panneau des emoji : une rangée d'onglets par famille, une grille de visages souriants, et en bas les touches ABC, espace et effacement">
+    <div>
+      <h2>Tous les emoji, à un doigt</h2>
+      <p class="chapeau">Le bouton emoji reste à gauche de la bande, même pendant que vous écrivez.</p>
+      <ul class="points">
+        <li>Plus de 1 300 emoji rangés en neuf familles, <strong>vos derniers utilisés en tête</strong>.</li>
+        <li>Ce que la police de votre téléphone ne sait pas dessiner n'est pas proposé : pas de carrés vides.</li>
+        <li>Un drapeau ou un emoji composé s'efface d'un seul coup, sans laisser de débris dans le texte.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="accents">
+  <div class="page duo">
+    <img class="ecran" src="images/accents.png" width="1080" height="942" loading="lazy"
+         alt="Thème clair : un appui long sur la touche e ouvre une bulle avec e, é, è, ê, ë et €">
+    <div>
+      <h2>Les accents à portée de pouce</h2>
+      <p class="chapeau">Un appui long sur une lettre, un glissement vers la bonne variante.</p>
+      <ul class="points">
+        <li>é è ê ë, à â, ç, ù û, œ… et même €, « » ou π sur les touches qui s'y prêtent.</li>
+        <li>Fonctionne aussi en majuscules : É, À, Ç.</li>
+        <li>Rangée de chiffres, deux pages de symboles, verrouillage des majuscules par double appui sur Maj.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="themes">
+  <div class="page">
+    <h2>À votre goût</h2>
+    <p class="chapeau">Clair, sombre, suivant le système, ou entièrement personnalisé : fond, touches, caractères, accent et contraste — huit palettes prêtes à l'emploi.</p>
+    <div class="cartes">
+      <div class="carte"><img src="images/theme-ocean.png" width="1080" height="942" loading="lazy" alt="Palette Océan : fond bleu nuit, touches bleu ardoise, accent bleu clair"><h3>Océan</h3><p>Bleu nuit, pour les yeux fatigués du soir.</p></div>
+      <div class="carte"><img src="images/theme-sable.png" width="1080" height="942" loading="lazy" alt="Palette Sable : fond beige, touches blanc cassé, accent caramel"><h3>Sable</h3><p>Chaud et clair, comme du papier.</p></div>
+      <div class="carte"><img src="images/theme-violet.png" width="1080" height="942" loading="lazy" alt="Palette Violet : fond prune, touches violet sombre, accent lavande"><h3>Violet</h3><p>Ou composez la vôtre, au-dessus d'un aperçu qui est le vrai clavier.</p></div>
+    </div>
+    <p style="color:var(--texte-2);margin-top:22px">Les lettres du mot en cours peuvent s'allumer sur le clavier, dans la couleur de votre choix. La hauteur du clavier se règle de 70 à 150 %.</p>
+  </div>
+</section>
+
+<section id="confort">
+  <div class="page">
+    <h2>Les petits gestes qui changent tout</h2>
+    <div class="cartes">
+      <div class="carte"><h3>Le curseur sur la barre d'espace</h3><p>Glissez le doigt sur l'espace : le curseur suit, lettre par lettre, sans viser dans le texte.</p></div>
+      <div class="carte"><h3>Effacer par mots entiers</h3><p>Partez de Retour arrière et glissez vers la gauche : la sélection grandit mot par mot, jusqu'à tout ce qui précède au bord de l'écran. Relâchez pour effacer, revenez pour annuler.</p></div>
+      <div class="carte"><h3>Ponctuation sans effort</h3><p>Double espace pour un point, majuscule automatique en début de phrase, apostrophes et traits d'union qui restent dans le mot.</p></div>
+      <div class="carte"><h3>Au-dessus des touches du téléphone</h3><p>Le clavier ne passe pas sous la barre de navigation ; une marge réglable le remonte si votre téléphone en a besoin.</p></div>
+      <div class="carte"><h3>Vibration et son</h3><p>Retour haptique réglable, son des touches au choix, aperçu agrandi de la lettre touchée.</p></div>
+      <div class="carte"><h3>Dictionnaire personnel</h3><p>Vos mots appris et vos mots bannis se consultent, s'ajoutent et s'effacent depuis l'application.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="confiance">
+  <div class="page">
+    <h2>Rien ne quitte votre téléphone</h2>
+    <p class="chapeau">Un clavier voit tout ce que vous écrivez. 36Board est construit pour n'avoir techniquement aucun moyen d'en faire quoi que ce soit.</p>
+    <div class="cartes">
+      <div class="carte"><h3>Aucune permission réseau</h3><p>La permission internet n'est pas déclarée : Android interdit à 36Board d'ouvrir la moindre connexion. Pas de compte, pas de statistiques, pas de publicité. Une seule permission demandée : la vibration.</p></div>
+      <div class="carte"><h3>Mots de passe protégés</h3><p>Dans un champ mot de passe, rien ne se voit et rien ne se retient : pas de tracé, pas de lettres colorées, pas d'aperçu de touche, pas d'apprentissage, et le texte n'est jamais modifié en douce.</p></div>
+      <div class="carte"><h3>Navigation privée respectée</h3><p>Quand une application demande la navigation privée, 36Board n'apprend rien. Et « Apprendre mes mots » coupé l'est partout.</p></div>
+    </div>
+    <div class="note">Votre dictionnaire personnel reste dans le stockage privé de l'application : il est exclu des
+      sauvegardes et des transferts vers un autre téléphone. Le code source est public : chacun peut le vérifier.</div>
+  </div>
+</section>
+
+<section id="telecharger">
+  <div class="page">
+    <h2>Télécharger</h2>
+    <p class="chapeau">Version actuelle : <strong>1.14</strong>. Android 8.0 ou plus récent. Dans la page
+      <a href="https://github.com/36txXnxTrGXgSH/36Board/releases/latest">Releases</a>, téléchargez <code>36Board-1.14.apk</code>, puis :</p>
+    <ol class="etapes">
+      <li>Ouvrez le fichier : Android demande d'autoriser l'installation depuis votre navigateur ou votre gestionnaire de fichiers.</li>
+      <li>Ouvrez <strong>36Board</strong>, touchez <strong>Activer le clavier</strong> et cochez 36Board.</li>
+      <li>Touchez <strong>Choisir 36Board</strong> pour en faire votre clavier.</li>
+    </ol>
+    <div class="note">36Board n'est pas sur le Play Store : l'APK est signé par son auteur, et chaque mise à jour
+      s'installe par-dessus la précédente sans rien perdre. Il est conçu pour le français de France, en AZERTY.
+      Il n'est <strong>pas encore utilisable avec TalkBack</strong> ou un autre lecteur d'écran : c'est le prochain chantier.</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="page">
+    36Board — clavier en français, réalisé entièrement avec Claude, l'IA d'Anthropic.
+    Les images de cette page sont dessinées par les composants mêmes du clavier, dans ses tests
+    (<code>CapturesPresentationTest</code>) ; la conversation est fictive.
+    Dictionnaire : Lexique 3.83 (CC BY-SA 4.0) et FrequencyWords (MIT).
+    · <a href="https://github.com/36txXnxTrGXgSH/36Board">Code source</a>
+    · <a href="https://36txxnxtrgxgsh.github.io/Portfolio-Github/">Mes autres projets</a>
+  </div>
+</footer>
+
+</body>
+</html>

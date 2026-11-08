@@ -4001,6 +4001,7 @@ ajamais	71
 àjamais	15
 ajax	52
 ajay	117
+ajd	500
 ajino	13
 ajistes	4
 ajit	15
@@ -9285,7 +9286,7 @@ asami	51
 asana	9
 asano	71
 asao	19
-asap	22
+asap	500
 asbestose	2
 asbury	16
 ascaris	14
@@ -9379,6 +9380,7 @@ ask	60
 aske	14
 asked	17
 asking	15
+askip	600
 aslam	29
 aslan	46
 aslaug	13
@@ -11051,6 +11053,7 @@ augustinien	4
 augustins	37
 augusto	66
 augustus	123
+auj	600
 aujourd	126
 aujourd'hui	36818
 aujourïhui	14
@@ -14180,12 +14183,13 @@ baze	107
 bazooka	101
 bazookas	22
 bazza	27
-bb	71
+bb	400
 bbc	266
 bbq	14
 bbsiocnarf	20
 bc	22
 bcbg	39
+bcp	1500
 bd	526
 bé	100
 béa	47
@@ -15040,6 +15044,7 @@ bestiau	104
 bestiaux	341
 bestiole	277
 bestioles	314
+best-of	300
 best-seller	122
 best-sellers	32
 bet	89
@@ -15166,6 +15171,7 @@ bezef	7
 bézoard	11
 bezoukhov	13
 bff	18
+bg	600
 bhabhi	32
 bhabi	22
 bhagat	38
@@ -15892,7 +15898,7 @@ bivouaquerons	8
 bix	18
 bixby	55
 bixton	12
-biz	65
+biz	500
 bizarde	14
 bizarre	14208
 bizarrement	1078
@@ -15919,6 +15925,7 @@ bjarne	48
 björk	13
 bjorn	94
 björn	18
+bjr	1000
 bjurman	22
 bk	12
 bl	19
@@ -16956,7 +16963,7 @@ boorman	42
 boost	39
 boosté	23
 booste	20
-booster	142
+booster	500
 boosters	17
 boot	47
 booth	1269
@@ -18191,7 +18198,7 @@ braiments	264
 brain	82
 brainiac	54
 brains	17
-brainstorming	26
+brainstorming	300
 braintree	15
 brain-trust	5
 braire	48
@@ -18668,7 +18675,7 @@ bridgit	14
 bridon	17
 bridons	4
 brie	79
-brief	14
+brief	300
 briefé	79
 briefe	23
 briefée	16
@@ -19451,7 +19458,9 @@ brynn	28
 brynner	19
 bryson	63
 bs	26
+bsr	500
 bt	13
+btw	300
 bu	4997
 bua	5
 buanderie	162
@@ -19560,7 +19569,7 @@ buffy	766
 bufgelfly	75
 bufo	3
 buford	67
-bug	327
+bug	1000
 bugatti	20
 buggy	56
 bugle	26
@@ -19571,6 +19580,7 @@ bugné	2
 bugnes	4
 bugs	140
 bugsy	76
+buguer	300
 buh	15
 bühler	13
 buick	114
@@ -19886,7 +19896,7 @@ buvons	836
 buvons-nous	20
 buxton	40
 buy	189
-buzz	645
+buzz	800
 buzzer	68
 buzzwire	13
 buzzy	18
@@ -20704,7 +20714,7 @@ câlisse	164
 calisson	7
 calissons	4
 calista	53
-call	355
+call	600
 calla	18
 callaghan	79
 callahan	193
@@ -22948,7 +22958,7 @@ cbc	21
 cbgb	13
 cbi	173
 cbs	131
-cc	241
+cc	1200
 çça	18
 ccpd	16
 cctv	23
@@ -23628,7 +23638,7 @@ chaleurs	218
 châlit	14
 châlits	7
 chalky	31
-challenge	302
+challenge	800
 challenger	130
 challengers	30
 challenges	52
@@ -24632,9 +24642,9 @@ chèche	28
 chèches	7
 chéchia	68
 chéchias	10
-check	266
+check	400
 checke	53
-checker	45
+checker	300
 checkers	31
 check-list	29
 checkmate	17
@@ -25234,7 +25244,8 @@ chilienne	63
 chiliennes	15
 chiliens	42
 chilis	6
-chill	47
+chill	500
+chiller	300
 chilly	20
 chilom	5
 chilton	108
@@ -27191,7 +27202,7 @@ coache	14
 coachella	27
 coacher	59
 coaches	20
-coaching	34
+coaching	400
 coachs	64
 coadjuteur	4
 coagula	4
@@ -34230,6 +34241,7 @@ crimson	67
 crin	212
 crincrin	12
 crincrins	4
+cringe	400
 crinière	560
 crinières	68
 crinoline	15
@@ -34766,7 +34778,7 @@ crunch	76
 crurent	83
 crus	836
 crusaders	24
-crush	41
+crush	400
 crusher	151
 crusoe	61
 crusoé	29
@@ -34818,7 +34830,7 @@ csi	243
 csis	24
 csivore	27
 csu	54
-ct	47
+ct	400
 cthulhu	33
 cts	22
 ctu	173
@@ -36014,7 +36026,7 @@ dea	334
 deac	18
 deacon	374
 dead	322
-deadline	21
+deadline	600
 deadly	18
 deadshot	20
 deadwood	35
@@ -36566,7 +36578,7 @@ débriderai	4
 débriderait	4
 débridés	6
 débridez	3
-débrief	15
+débrief	400
 débriefé	9
 débriefée	4
 débriefer	26
@@ -45369,7 +45381,7 @@ djs	14
 djshadow	87
 dk	13
 dl	22
-dm	23
+dm	400
 dmbmh	30
 dmitri	105
 dmitriévna	13
@@ -46625,6 +46637,7 @@ dryades	18
 dryden	26
 dryer	15
 ds	57
+dsl	1500
 dss	13
 dst	17
 dt	58
@@ -49623,7 +49636,8 @@ ema	48
 émaciée	17
 émaciées	7
 émaciés	11
-e-mail	960
+e-mail	1500
+email	1500
 émail	315
 émailla	4
 émaillaient	24
@@ -59347,7 +59361,7 @@ fait-tu	31
 faix	39
 faizal	39
 fajitas	29
-fake	37
+fake	500
 fakir	66
 fakirs	31
 falafel	38
@@ -60115,7 +60129,7 @@ feds	54
 fée	949
 feebles	13
 feed	21
-feedback	17
+feedback	800
 feed-back	8
 feel	384
 feelin	22
@@ -62364,7 +62378,8 @@ folliculite	2
 follies	23
 follingue	4
 follow	53
-followers	60
+follower	400
+followers	600
 folly	13
 fols	30
 folsom	70
@@ -64408,6 +64423,7 @@ frousse	253
 frousses	22
 froy	22
 frozen	19
+frr	300
 frs	23
 fructidor	4
 fructifiaient	4
@@ -64667,7 +64683,7 @@ fumistes	8
 fumoir	90
 fumons	75
 fumure	4
-fun	1001
+fun	1500
 funaki	13
 funambule	94
 funambules	28
@@ -65377,6 +65393,7 @@ gamelan	16
 gamelin	12
 gamelle	487
 gamelles	280
+gamer	400
 games	102
 gamète	8
 gamètes	5
@@ -65389,7 +65406,7 @@ gaminement	4
 gaminerie	14
 gamineries	39
 gamines	245
-gaming	21
+gaming	300
 gamins	2796
 gamma	365
 gammaglobuline	10
@@ -66069,7 +66086,7 @@ gedda	24
 geddes	28
 gédéon	47
 gee	71
-geek	332
+geek	500
 geeks	135
 geena	19
 gees	25
@@ -66674,7 +66691,7 @@ geum-ja	14
 geyser	39
 geysers	23
 g-force	14
-gg	57
+gg	600
 ghana	32
 ghandi	14
 ghanéens	4
@@ -70926,7 +70943,7 @@ hases	7
 hash	35
 hashem	13
 hashimoto	56
-hashtag	91
+hashtag	400
 hasil	13
 haskel	22
 haskell	201
@@ -73245,7 +73262,7 @@ hyo-jin	20
 hyoma	17
 hyo-shin	13
 hypallage	4
-hype	16
+hype	400
 hyper	645
 hyperactif	34
 hyperactive	14
@@ -78693,6 +78710,7 @@ iriserait	4
 irisés	22
 irish	68
 irkoutsk	17
+irl	300
 irlandais	1078
 irlandaise	223
 irlandaises	29
@@ -80466,11 +80484,14 @@ joystick	26
 jozef	34
 jp	188
 jpeg	12
+jpp	600
 jr	497
 j-rock	13
 jrzac	14
+jsp	1200
 jsute	14
 jt	386
+jtm	800
 ju	187
 juan	1092
 juana	47
@@ -84561,8 +84582,10 @@ liguez	12
 ligure	7
 ligures	4
 lik	21
-like	1025
-likes	19
+like	2000
+liké	300
+liker	600
+likes	800
 lil	272
 lila	459
 lilah	54
@@ -85051,7 +85074,7 @@ liu	343
 liv	626
 livan	17
 livarot	14
-live	468
+live	800
 livèche	7
 lived	13
 lively	15
@@ -85366,7 +85389,7 @@ loki	85
 lokoum	7
 loksat	13
 loky	47
-lol	127
+lol	2500
 lola	731
 lolita	129
 lolitas	6
@@ -86900,7 +86923,7 @@ maigrisses	14
 maigrissez	6
 maigrit	38
 maîitre	30
-mail	978
+mail	3000
 mail-coach	7
 mailé	9
 mailer	46
@@ -86920,7 +86943,7 @@ maillot	1186
 maillotin	4
 maillotins	4
 maillots	258
-mails	558
+mails	1500
 main	53767
 maïna	19
 mainate	38
@@ -89634,7 +89657,7 @@ mcteer	21
 mcveigh	40
 md	49
 mdma	37
-mdr	19
+mdr	3000
 me	459688
 mea	78
 meacham	20
@@ -89928,7 +89951,7 @@ meers	13
 meet	91
 meeta	13
 meetic	13
-meeting	411
+meeting	600
 meetings	142
 méfait	60
 méfaits	164
@@ -94359,7 +94382,7 @@ mozartiennes	4
 mozzarella	63
 mozzarelle	3
 mozzie	109
-mp	51
+mp	600
 mpaa	19
 mph	17
 mpm	88
@@ -94376,6 +94399,7 @@ mstoll	13
 mt	34
 mta	15
 mtac	39
+mtn	1000
 mtv	136
 mû	108
 mua	41
@@ -96286,7 +96310,7 @@ newman	342
 newport	251
 news	563
 newsday	14
-newsletter	23
+newsletter	300
 newsome	30
 newsweek	60
 newt	72
@@ -96641,6 +96665,7 @@ niwa	14
 nix	56
 nixe	4
 nixon	425
+nn	500
 n-non	46
 no	3462
 nô	13
@@ -98538,6 +98563,7 @@ okinawa	128
 okita	44
 okja	26
 oklahoma	355
+oklm	300
 okoumé	7
 oksana	49
 oktoberfest	14
@@ -98691,7 +98717,7 @@ omettez	17
 omettiez	4
 omettrai	5
 omettre	54
-omg	30
+omg	800
 omi	16
 omicron	32
 omis	266
@@ -99646,6 +99672,7 @@ ose	2574
 osé	1947
 osée	48
 osées	33
+osef	500
 oseille	299
 oseilles	7
 osela	17
@@ -102811,7 +102838,9 @@ pbs	51
 pc	424
 pcb	17
 pchitt	10
+pck	400
 pcp	87
+pcq	800
 pcr	30
 pcv	99
 pd	77
@@ -106203,7 +106232,7 @@ pizzeria	206
 pizzerias	11
 pizzicato	22
 pj	157
-pk	36
+pk	1200
 pl	54
 pla	92
 plaã	43
@@ -106733,7 +106762,7 @@ player	40
 players	14
 playin	14
 playing	54
-playlist	65
+playlist	600
 playmate	34
 playmates	8
 playoffs	60
@@ -107182,7 +107211,7 @@ poco	23
 poconos	25
 pod	82
 podagre	10
-podcast	46
+podcast	600
 podestat	5
 podestats	10
 podium	164
@@ -108369,7 +108398,7 @@ possible	21963
 possiblement	80
 possibles	1115
 possum	23
-post	580
+post	1000
 posta	51
 postai	8
 postaient	4
@@ -109024,7 +109053,7 @@ pozzo	19
 pp	30
 ppk	14
 p-pourquoi	16
-pq	87
+pq	800
 pr	570
 prã	106
 pra	13
@@ -111968,6 +111997,7 @@ psychotrope	23
 psychotropes	39
 psys	138
 pt	32
+ptdr	1500
 ptérodactyle	23
 ptérodactyles	8
 ptit	56
@@ -112263,6 +112293,7 @@ punch	440
 puncheur	3
 punching	32
 punching-ball	62
+punchline	300
 punchs	8
 punchy	24
 puncture	5
@@ -112575,8 +112606,9 @@ qing	89
 qiu	70
 qn	64
 qq	29
-qqch	32
+qqch	600
 qqchose	16
+qqn	600
 qr	18
 qresh	15
 qu	3303
@@ -115624,7 +115656,7 @@ rca	13
 rcp	37
 rd	72
 rda	69
-rdv	317
+rdv	1500
 rdx	24
 re	2724
 ré	186
@@ -121154,7 +121186,7 @@ replâtrées	4
 replâtrer	8
 replâtrerait	4
 replats	4
-replay	17
+replay	400
 replet	38
 replète	40
 replètes	4
@@ -128880,7 +128912,7 @@ self	87
 self-control	28
 self-contrôle	13
 self-défense	26
-selfie	108
+selfie	800
 selfies	46
 self-made-man	5
 self-made-men	4
@@ -131159,6 +131191,7 @@ slovénie	20
 slow	145
 slowly	17
 slows	20
+slt	1500
 slug	11
 slurm	14
 slurp	13
@@ -131175,7 +131208,7 @@ smallville	233
 smaragdin	4
 smart	84
 smarties	17
-smartphone	56
+smartphone	1000
 smartphones	25
 smash	170
 smashe	12
@@ -133427,7 +133460,8 @@ splittaient	4
 splitter	2
 spock	717
 spode	33
-spoiler	61
+spoilé	300
+spoiler	800
 spoilers	41
 spokane	41
 spoliait	4
@@ -133752,7 +133786,8 @@ starter	67
 starting	13
 starting-gate	9
 starts	14
-start-up	53
+start-up	400
+startup	400
 stas	27
 stase	155
 stash	27
@@ -134185,12 +134220,12 @@ storage	10
 store	274
 stores	260
 storey	16
-stories	15
+stories	600
 stork	28
 storm	146
 stormtrooper	16
 stormy	38
-story	218
+story	800
 story-board	50
 story-boards	13
 storybrooke	112
@@ -134200,7 +134235,7 @@ stottlemeyer	51
 stout	30
 stowaway	23
 stowe	31
-stp	518
+stp	2000
 st-patrick	15
 strabisme	45
 strabismes	4
@@ -134264,8 +134299,9 @@ strauss	288
 stravinsky	23
 strawberry	54
 streak	17
-stream	67
-streaming	43
+stream	400
+streamer	300
+streaming	600
 streep	53
 street	2751
 streets	40
@@ -134466,6 +134502,7 @@ sturm	29
 stussy	30
 stuttgart	43
 stuyvesant	30
+stv	400
 st-valentin	157
 style	3811
 stylé	60
@@ -136514,7 +136551,7 @@ svenning	13
 svensson	18
 sveta	25
 svetlana	92
-svp	1017
+svp	2000
 svr	56
 svt	17
 svu	30
@@ -140089,8 +140126,12 @@ tivoli	25
 tiwari	22
 tix	14
 tj	162
+tjr	800
+tjrs	600
 tk	96
+tkt	1500
 tlc	17
+tlm	600
 tlotoxl	13
 tltra	28
 tm	15
@@ -141245,6 +141286,7 @@ toyotomi	23
 toys	50
 tp	44
 tpa	18
+tqt	600
 tr	131
 trã	168
 tra	53
@@ -144005,6 +144047,7 @@ tutélaires	10
 tutelle	222
 tuteur	422
 tuteurs	66
+tuto	500
 tutoie	180
 tutoiement	110
 tutoiements	4
@@ -144516,7 +144559,7 @@ up	1474
 upanisads	4
 upanishad	5
 upas	4
-update	11
+update	300
 updyke	14
 upgradée	7
 upir	12
@@ -148158,6 +148201,7 @@ vrilles	40
 vrillés	7
 vrillette	2
 vrillettes	4
+vrmt	600
 vrombir	15
 vrombis	4
 vrombissaient	5
@@ -148479,7 +148523,8 @@ wee	108
 weed	93
 weeds	33
 week	321
-week-end	4759
+week-end	5000
+weekend	800
 week-ends	374
 weekly	78
 weeks	47
@@ -148547,7 +148592,7 @@ wescott	19
 wesen	176
 wesenrein	12
 wesens	12
-wesh	27
+wesh	800
 wesley	574
 wessex	91
 wesson	90
@@ -148708,8 +148753,8 @@ wiegler	13
 wiener	28
 wiesbaden	12
 wife	82
-wi-fi	202
-wifi	128
+wifi	1500
+wi-fi	600
 wiggins	35
 wiggs	20
 wiggum	41
@@ -149023,6 +149068,7 @@ writers	28
 written	14
 wrong	122
 wrote	12
+wsh	300
 wtc	38
 wu	477
 wuchang	15
@@ -149112,6 +149158,7 @@ xll	14
 x-man	14
 x-men	59
 xo	55
+xptdr	300
 x-ray	50
 xrous	27
 xu	70
