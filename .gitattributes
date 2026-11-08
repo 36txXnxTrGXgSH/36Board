@@ -1,0 +1,6 @@
+# Le script gradlew est lu par un shell Unix : jamais de CRLF.
+gradlew text eol=lf
+*.bat text eol=crlf
+
+*.jar binary
+*.png binary

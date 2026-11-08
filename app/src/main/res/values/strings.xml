@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">36Board</string>
+    <string name="ime_name">36Board — clavier français</string>
+    <string name="subtype_fr">Français (France) — AZERTY</string>
+</resources>

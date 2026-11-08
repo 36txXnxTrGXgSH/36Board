@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- corps du clavier -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M26,38 L82,38 A5,5 0 0 1 87,43 L87,72 A5,5 0 0 1 82,77 L26,77 A5,5 0 0 1 21,72 L21,43 A5,5 0 0 1 26,38 Z" />
+    <!-- touches -->
+    <path
+        android:fillColor="#1F6F64"
+        android:pathData="M27,44 h8 v8 h-8 z M39,44 h8 v8 h-8 z M51,44 h8 v8 h-8 z M63,44 h8 v8 h-8 z M75,44 h6 v8 h-6 z
+        M27,56 h8 v8 h-8 z M39,56 h8 v8 h-8 z M51,56 h8 v8 h-8 z M63,56 h8 v8 h-8 z M75,56 h6 v8 h-6 z
+        M33,68 h42 v6 h-42 z" />
+    <!-- tracé du swipe -->
+    <path
+        android:strokeColor="#F2B84B"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M31,60 C42,34 58,80 76,48" />
+</vector>
