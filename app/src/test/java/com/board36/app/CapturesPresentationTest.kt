@@ -150,4 +150,72 @@ class CapturesPresentationTest {
 
         assertTrue(File(out, "clavier-sombre.png").length() > 10_000)
     }
+
+    /**
+     * Image de la carte du portfolio (docs/images/01-accueil.png) : un écran de téléphone en
+     * portrait, comme pour les autres applications. La conversation est fictive et dessinée ici ;
+     * le clavier, en bas, est le vrai.
+     */
+    @Test
+    fun imageDeLaCarteDuPortfolio() {
+        val dark = KeyboardTheme.DARK
+        val kbH = stripH + rowH * 5
+        val chatH = 1290
+        val bmp = Bitmap.createBitmap(imgW, chatH + kbH, Bitmap.Config.ARGB_8888)
+        val c = Canvas(bmp)
+        val p = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG)
+        c.drawColor(0xFF0F1013.toInt())
+
+        // en-tête de conversation
+        p.shader = android.graphics.LinearGradient(48f, 70f, 148f, 170f,
+            0xFFF2B84B.toInt(), 0xFFE07A5F.toInt(), android.graphics.Shader.TileMode.CLAMP)
+        c.drawCircle(98f, 120f, 50f, p)
+        p.shader = null
+        p.color = 0xFFECEEF2.toInt(); p.textSize = 46f; p.isFakeBoldText = true
+        c.drawText("Camille", 178f, 112f, p)
+        p.isFakeBoldText = false; p.color = 0xFFA8ADB8.toInt(); p.textSize = 34f
+        c.drawText("en ligne", 178f, 158f, p)
+        p.color = 0xFF1F2127.toInt()
+        c.drawRect(0f, 220f, imgW.toFloat(), 222f, p)
+
+        // bulles : reçu à gauche, envoyé à droite
+        p.textSize = 44f
+        var y = 300f
+        fun bubble(text: String, sent: Boolean) {
+            val tw = p.measureText(text)
+            val w = tw + 72f
+            val left = if (sent) imgW - 48f - w else 48f
+            p.color = if (sent) 0xFF1F4D47.toInt() else 0xFF22252C.toInt()
+            c.drawRoundRect(android.graphics.RectF(left, y, left + w, y + 104f), 46f, 46f, p)
+            p.color = 0xFFECEEF2.toInt()
+            c.drawText(text, left + 36f, y + 67f, p)
+            y += 136f
+        }
+        bubble("Askip le nouveau film est ouf 🍿", sent = false)
+        bubble("Grave, j'ai vu la bande-annonce mdr", sent = true)
+        bubble("Tkt je prends les places 😉", sent = false)
+        bubble("Trop bien, merci bcp !", sent = true)
+
+        // champ de saisie, en bas de la conversation
+        val fieldTop = chatH - 150f
+        p.color = 0xFF1B1D22.toInt()
+        c.drawRoundRect(android.graphics.RectF(36f, fieldTop, imgW - 36f, fieldTop + 116f), 58f, 58f, p)
+        p.color = 0xFFECEEF2.toInt()
+        val typed = "On se voit ce week"
+        c.drawText(typed, 84f, fieldTop + 74f, p)
+        p.color = dark.accent
+        val cx = 84f + p.measureText(typed) + 6f
+        c.drawRect(cx, fieldTop + 32f, cx + 4f, fieldTop + 86f, p)
+
+        // le clavier : bande et touches, chacun dans sa zone
+        val top = strip(dark, listOf("week", "week-end", "weekend"), 1)
+        val kb = keyboard(dark, setOf('w', 'e', 'k'))
+        c.save(); c.translate(0f, chatH.toFloat()); c.clipRect(0, 0, imgW, stripH); top.draw(c); c.restore()
+        c.save(); c.translate(0f, (chatH + stripH).toFloat()); c.clipRect(0, 0, imgW, rowH * 5); kb.draw(c); c.restore()
+
+        // même format que les cartes des autres applications Android (≈ 540 px de large)
+        val small = Bitmap.createScaledBitmap(bmp, 540, bmp.height * 540 / imgW, true)
+        File(out, "01-accueil.png").outputStream().use { small.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        assertTrue(File(out, "01-accueil.png").length() > 10_000)
+    }
 }
