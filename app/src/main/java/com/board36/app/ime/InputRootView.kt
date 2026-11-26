@@ -1,9 +1,11 @@
 package com.board36.app.ime
 
 import android.content.Context
+import android.graphics.Insets
 import android.os.Build
 import android.view.View
 import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.FrameLayout
 
 /**
@@ -21,8 +23,8 @@ import android.widget.FrameLayout
  */
 class InputRootView(context: Context) : FrameLayout(context) {
 
-    /** Place réservée à la barre de navigation, mesurée par le système. */
-    private var insetBottom = 0
+    /** Place réservée à la barre de navigation (en bas, ou sur le côté en paysage). */
+    private var nav: Insets = Insets.NONE
 
     /**
      * Marge réglée par l'utilisateur, en pixels. Elle s'ajoute à l'encart système : sur
@@ -30,11 +32,13 @@ class InputRootView(context: Context) : FrameLayout(context) {
      * au-dessus des touches de navigation.
      */
     var extraBottomPadding = 0
-        set(v) { field = v; applyBottomPadding() }
+        set(v) { field = v; applyPadding() }
 
-    private fun applyBottomPadding() {
-        val bottom = insetBottom + extraBottomPadding
-        if (paddingBottom != bottom) setPadding(0, 0, 0, bottom)
+    private fun applyPadding() {
+        val l = nav.left
+        val r = nav.right
+        val b = nav.bottom + extraBottomPadding
+        if (paddingLeft != l || paddingRight != r || paddingBottom != b) setPadding(l, 0, r, b)
     }
 
     /**
@@ -44,11 +48,50 @@ class InputRootView(context: Context) : FrameLayout(context) {
      * s'en charge et l'encart vaut 0.
      */
     override fun onApplyWindowInsets(insets: WindowInsets): WindowInsets {
-        if (Build.VERSION.SDK_INT >= 35) {
-            insetBottom = insets.getInsets(WindowInsets.Type.navigationBars()).bottom
-            applyBottomPadding()
-        }
+        if (Build.VERSION.SDK_INT >= 35) useInsets(navigationInsets(insets))
         return insets
+    }
+
+    /**
+     * Relit la place de la barre de navigation. Le service l'appelle à chaque affichage
+     * du clavier.
+     *
+     * Les encarts transmis à la fenêtre du clavier ne suffisent pas : il arrive qu'ils
+     * annoncent une barre de navigation de hauteur nulle (constaté dans WhatsApp, après
+     * un déverrouillage), et rien ne les corrige tant que le clavier reste affiché — la
+     * dernière rangée passait alors sous les touches de navigation. On prend donc le plus
+     * grand de trois relevés : les encarts reçus, ceux de la fenêtre au moment de
+     * l'affichage, et ceux de l'écran (`WindowMetrics`), qui décrivent la barre de
+     * navigation quel que soit l'état de la fenêtre du clavier.
+     */
+    fun refreshInsets() {
+        if (Build.VERSION.SDK_INT < 35) return
+        useInsets(navigationInsets(rootWindowInsets))
+        requestApplyInsets()
+    }
+
+    private fun useInsets(insets: Insets) {
+        if (insets == nav) return
+        nav = insets
+        applyPadding()
+    }
+
+    /** Plus grand encart de barre de navigation connu, qu'elle soit déclarée visible ou non. */
+    private fun navigationInsets(dispatched: WindowInsets?): Insets {
+        val type = WindowInsets.Type.navigationBars()
+        var best = Insets.NONE
+        dispatched?.let {
+            best = Insets.max(best, it.getInsets(type))
+            best = Insets.max(best, it.getInsetsIgnoringVisibility(type))
+        }
+        try {
+            val screen = context.getSystemService(WindowManager::class.java)
+                ?.currentWindowMetrics?.windowInsets
+            if (screen != null) best = Insets.max(best, screen.getInsetsIgnoringVisibility(type))
+        } catch (_: Exception) {
+            // contexte sans fenêtre (aperçu, tests) : on garde les encarts reçus
+        }
+        return Insets.of(best.left, 0, best.right, best.bottom)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -58,15 +101,16 @@ class InputRootView(context: Context) : FrameLayout(context) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec)
             return
         }
+        val inner = (width - paddingLeft - paddingRight).coerceAtLeast(0)
         column.measure(
-            MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(inner, MeasureSpec.EXACTLY),
             MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         )
         val height = column.measuredHeight
 
         for (i in 1 until childCount) {
             getChildAt(i).measure(
-                MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(inner, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
             )
         }
@@ -77,7 +121,7 @@ class InputRootView(context: Context) : FrameLayout(context) {
         val w = right - left
         val h = bottom - top - paddingBottom
         for (i in 0 until childCount) {
-            getChildAt(i).layout(0, 0, w, h)
+            getChildAt(i).layout(paddingLeft, 0, w - paddingRight, h)
         }
     }
 }

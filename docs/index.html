@@ -213,8 +213,25 @@
   </div>
 </section>
 
-<section id="messages">
+<section id="reprise">
   <div class="page duo">
+    <img class="ecran" src="images/reprise.png" width="1080" height="942" loading="lazy"
+         alt="Le mot « monde » est repris : la bande propose « mode », « mondes » et « onde »">
+    <div>
+      <h2>Un mot raté ? Touchez-le</h2>
+      <p class="chapeau">Posez le curseur dans un mot déjà écrit, ou sélectionnez-le : la bande propose d'autres mots, et en toucher un remplace le mot entier.</p>
+      <ul class="points">
+        <li><strong>Pour un mot tracé</strong>, ce sont les autres variantes du tracé qui reviennent : on corrige un swipe raté sans le retaper. Les 40 derniers mots tracés sont mémorisés.</li>
+        <li><strong>Pour un mot tapé</strong>, ce sont les corrections, avant les mots plus longs : « monde » propose mode, mondes, onde ; « ete » propose été.</li>
+        <li>Le reste de la phrase n'est pas touché, et l'on peut revenir sur le mot pour choisir encore.</li>
+        <li>Rien n'est proposé dans un champ mot de passe.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="messages">
+  <div class="page duo inverse">
     <img class="ecran" src="images/familier.png" width="1080" height="942" loading="lazy"
          alt="La bande de 36Board propose « mdr », « ptdr » et « tkt »">
     <div>
@@ -237,7 +254,7 @@
 </section>
 
 <section id="emoji">
-  <div class="page duo inverse">
+  <div class="page duo">
     <img class="ecran" src="images/emoji.png" width="1080" height="942" loading="lazy"
          alt="Le panneau des emoji : une rangée d'onglets par famille, une grille de visages souriants, et en bas les touches ABC, espace et effacement">
     <div>
@@ -253,7 +270,7 @@
 </section>
 
 <section id="accents">
-  <div class="page duo">
+  <div class="page duo inverse">
     <img class="ecran" src="images/accents.png" width="1080" height="942" loading="lazy"
          alt="Thème clair : un appui long sur la touche e ouvre une bulle avec e, é, è, ê, ë et €">
     <div>
@@ -264,6 +281,28 @@
         <li>Fonctionne aussi en majuscules : É, À, Ç.</li>
         <li>Rangée de chiffres, deux pages de symboles, verrouillage des majuscules par double appui sur Maj.</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<section id="symboles">
+  <div class="page duo">
+    <img class="ecran" src="images/symboles.png" width="1080" height="780" loading="lazy"
+         alt="La seconde page de symboles ; un appui long sur la touche « < » ouvre une bulle avec « ‹ ≤ et ←">
+    <div>
+      <h2>Tous les caractères, sans chercher</h2>
+      <p class="chapeau">Tout l'ASCII a sa touche — <code>&lt;</code> et <code>&gt;</code> compris — et un appui long sur un symbole donne ses voisins.</p>
+      <table>
+        <tr><th>Appui long sur</th><th>Donne</th></tr>
+        <tr><td><code>&lt;</code></td><td>« ‹ ≤ ←</td></tr>
+        <tr><td><code>&gt;</code></td><td>» › ≥ →</td></tr>
+        <tr><td><code>"</code></td><td>“ ” « » „</td></tr>
+        <tr><td><code>-</code></td><td>– — _ ·</td></tr>
+        <tr><td><code>=</code> et <code>+</code></td><td>≠ ≈ et ±</td></tr>
+        <tr><td><code>%</code>, <code>#</code>, <code>&amp;</code></td><td>‰, №, §</td></tr>
+        <tr><td><code>€</code></td><td>$ £ ¥ ¢ ₽</td></tr>
+        <tr><td>les chiffres</td><td>exposants, et ½ ⅓ ¼ ⅔ ¾</td></tr>
+      </table>
     </div>
   </div>
 </section>
@@ -288,7 +327,7 @@
       <div class="carte"><h3>Le curseur sur la barre d'espace</h3><p>Glissez le doigt sur l'espace : le curseur suit, lettre par lettre, sans viser dans le texte.</p></div>
       <div class="carte"><h3>Effacer par mots entiers</h3><p>Partez de Retour arrière et glissez vers la gauche : la sélection grandit mot par mot, jusqu'à tout ce qui précède au bord de l'écran. Relâchez pour effacer, revenez pour annuler.</p></div>
       <div class="carte"><h3>Ponctuation sans effort</h3><p>Double espace pour un point, majuscule automatique en début de phrase, apostrophes et traits d'union qui restent dans le mot.</p></div>
-      <div class="carte"><h3>Au-dessus des touches du téléphone</h3><p>Le clavier ne passe pas sous la barre de navigation ; une marge réglable le remonte si votre téléphone en a besoin.</p></div>
+      <div class="carte"><h3>Au-dessus des touches du téléphone</h3><p>Le clavier ne passe pas sous la barre de navigation : sa hauteur est relue à chaque affichage, même juste après un déverrouillage. Une marge réglable le remonte encore si votre téléphone en a besoin.</p></div>
       <div class="carte"><h3>Vibration et son</h3><p>Retour haptique réglable, son des touches au choix, aperçu agrandi de la lettre touchée.</p></div>
       <div class="carte"><h3>Dictionnaire personnel</h3><p>Vos mots appris et vos mots bannis se consultent, s'ajoutent et s'effacent depuis l'application.</p></div>
     </div>
@@ -312,8 +351,8 @@
 <section id="telecharger">
   <div class="page">
     <h2>Télécharger</h2>
-    <p class="chapeau">Version actuelle : <strong>1.14</strong>. Android 8.0 ou plus récent. Dans la page
-      <a href="https://github.com/36txXnxTrGXgSH/36Board/releases/latest">Releases</a>, téléchargez <code>36Board-1.14.apk</code>, puis :</p>
+    <p class="chapeau">Version actuelle : <strong>1.15</strong>. Android 8.0 ou plus récent. Dans la page
+      <a href="https://github.com/36txXnxTrGXgSH/36Board/releases/latest">Releases</a>, téléchargez <code>36Board-1.15.apk</code>, puis :</p>
     <ol class="etapes">
       <li>Ouvrez le fichier : Android demande d'autoriser l'installation depuis votre navigateur ou votre gestionnaire de fichiers.</li>
       <li>Ouvrez <strong>36Board</strong>, touchez <strong>Activer le clavier</strong> et cochez 36Board.</li>

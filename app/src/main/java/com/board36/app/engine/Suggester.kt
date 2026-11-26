@@ -57,6 +57,23 @@ class Suggester(
         return suggestPlain(typed, max)
     }
 
+    /**
+     * Autres mots possibles pour un mot **déjà écrit** sur lequel on revient : le mot
+     * lui-même est exclu, et les corrections (accents, touche voisine, lettre oubliée ou
+     * en trop) passent avant les mots plus longs — le mot est complet, on ne le prolonge pas.
+     */
+    fun alternatives(word: String, max: Int = 3): List<String> {
+        if (word.isEmpty()) return emptyList()
+        val cut = elisionCut(word)
+        if (cut > 0 && cut < word.length) {
+            val head = word.substring(0, cut)
+            return alternatives(word.substring(cut), max).map { head + it }
+        }
+        return suggestPlain(word, max + 3, reselection = true).words
+            .filterNot { it.equals(word, ignoreCase = true) }
+            .take(max)
+    }
+
     private fun hasApostrophe(w: String) = w.contains('\'') || w.contains('\u2019')
 
     /**
@@ -74,7 +91,7 @@ class Suggester(
         return if (head in ELISIONS) idx + 1 else -1
     }
 
-    private fun suggestPlain(typed: String, max: Int): SuggestionResult {
+    private fun suggestPlain(typed: String, max: Int, reselection: Boolean = false): SuggestionResult {
 
         val d = dict
         val norm = Fr.normalize(typed)
@@ -105,6 +122,8 @@ class Suggester(
             if (extra == 0) {
                 s += 6f
                 if (w == typed || w == typed.lowercase()) s += 2.5f
+            } else if (reselection) {
+                s -= RESELECTION_LONGER_PENALTY
             }
             offer(w, s)
         }
@@ -132,11 +151,16 @@ class Suggester(
 
         val rankedCompletions = completions.entries.sortedByDescending { it.value }
         val rankedCorrections = corrections.entries.sortedByDescending { it.value }
-        // on montre d'abord les complétions du mot en cours, puis les corrections
-        val ranked = (rankedCompletions + rankedCorrections).map { it.key }
         val scores = HashMap<String, Float>(completions.size + corrections.size)
         scores.putAll(corrections)
         for ((k, v) in completions) if ((scores[k] ?: Float.MIN_VALUE) < v) scores[k] = v
+        // pendant la frappe : d'abord les complétions du mot en cours, puis les corrections ;
+        // sur un mot déjà écrit, tout se classe ensemble, à la vraisemblance
+        val ranked = if (reselection) {
+            scores.entries.sortedByDescending { it.value }.map { it.key }
+        } else {
+            (rankedCompletions + rankedCorrections).map { it.key }
+        }
 
         val blocked = blocklist
         val cased = ranked.map { applyCase(typed, it) }.distinct()
@@ -237,6 +261,8 @@ class Suggester(
         const val PREFIX_SCAN_LIMIT = 4000
         const val FUZZY_SCAN_LIMIT = 40
         const val FUZZY_PENALTY = 4.5f
+        /** Sur un mot déjà écrit, un mot plus long est une suite, rarement ce que l'on voulait. */
+        const val RESELECTION_LONGER_PENALTY = 3f
         const val MIN_FUZZY_LEN = 3
         const val MAX_FUZZY_LEN = 16
         const val AUTOCORRECT_MIN_SCORE = 8.5f

@@ -76,6 +76,26 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
     private var gestureWord: String? = null
     private var gestureAlternatives: List<String> = emptyList()
 
+    /**
+     * Mot déjà écrit sur lequel on est revenu — curseur posé dedans, ou mot sélectionné :
+     * la bande propose d'autres mots, et en toucher un remplace le mot entier.
+     */
+    private var reselectWord = ""
+    /** Lettres du mot avant et après le curseur (toutes deux nulles quand le mot est sélectionné). */
+    private var reselectBefore = 0
+    private var reselectAfter = 0
+    private var reselectSelected = false
+
+    /**
+     * Variantes proposées par le décodeur pour les derniers mots tracés. Un tracé se trompe
+     * parfois sans que ce soit grave : en revenant sur le mot, on retrouve ses variantes —
+     * bien plus justes qu'une correction, puisqu'elles viennent du geste lui-même.
+     */
+    private val recentGestures = object : LinkedHashMap<String, List<String>>(16, 0.75f, true) {
+        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, List<String>>) =
+            size > MAX_RECENT_GESTURES
+    }
+
     /** Fin de la sélection, telle que rapportée par l'application : ancre de l'effacement. */
     private var selEnd = 0
 
@@ -212,6 +232,12 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
         refreshContext()
     }
 
+    /** À chaque apparition du clavier : la place de la barre de navigation est relue. */
+    override fun onWindowShown() {
+        super.onWindowShown()
+        rootView?.refreshInsets()
+    }
+
     override fun onFinishInputView(finishingInput: Boolean) {
         super.onFinishInputView(finishingInput)
         strip?.hideBlockPrompt()
@@ -224,6 +250,7 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
         previousWord = ""
         gestureWord = null
         gestureAlternatives = emptyList()
+        reselectWord = ""
     }
 
     /** Champs sans aucune proposition : mots de passe, champs qui les refusent. */
@@ -396,7 +423,13 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
     private fun ic(): InputConnection? = currentInputConnection
 
     /** Mot touché par le curseur et mot précédent, relus dans le champ. */
-    private class TextContext(val previous: String, val current: String, val midWord: Boolean)
+    /**
+     * [current] : lettres du mot avant le curseur ; [right] : lettres du même mot après lui.
+     * Le curseur est « dans un mot » dès qu'une lettre le suit.
+     */
+    private class TextContext(val previous: String, val current: String, val right: String) {
+        val midWord: Boolean get() = right.isNotEmpty()
+    }
 
     /**
      * Relit dans le champ le mot qui touche le curseur et celui qui le précède.
@@ -406,8 +439,9 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
     private fun readContext(): TextContext? {
         val ic = ic() ?: return null
         val before = ic.getTextBeforeCursor(CONTEXT_LOOKBACK, 0)?.toString() ?: return null
-        val after = ic.getTextAfterCursor(1, 0)?.toString() ?: ""
-        if (after.isNotEmpty() && Fr.isWordChar(after[0])) return TextContext("", "", true)
+        val after = ic.getTextAfterCursor(CONTEXT_LOOKBACK, 0)?.toString() ?: ""
+        var r = 0
+        while (r < after.length && Fr.isWordChar(after[r])) r++
 
         var i = before.length
         while (i > 0 && Fr.isWordChar(before[i - 1])) i--
@@ -417,21 +451,81 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
         while (j > 0 && !Fr.isWordChar(before[j - 1])) j--
         var k = j
         while (k > 0 && Fr.isWordChar(before[k - 1])) k--
-        return TextContext(before.substring(k, j), current, false)
+        return TextContext(before.substring(k, j), current, after.substring(0, r))
     }
 
     /** Met à jour le contexte (mot touché par le curseur) puis les propositions. */
     private fun refreshContext() {
+        reselectWord = ""
+        if (composing.isEmpty() && readSelectedWord()) return
         val ctx = readContext() ?: return
         if (ctx.midWord) {
             contextWord = ""
-            previousWord = ""
-            strip?.clear()
+            previousWord = ctx.previous
+            val whole = ctx.current + ctx.right
+            if (composing.isEmpty() && isWholeWord(whole)) {
+                reselect(whole, ctx.current.length, ctx.right.length, selected = false)
+            } else {
+                strip?.clear()
+            }
             return
         }
         previousWord = ctx.previous
         contextWord = if (composing.isEmpty()) ctx.current else ""
         updateSuggestions()
+    }
+
+    /**
+     * Une sélection en cours : si c'est un mot entier, on propose de le remplacer.
+     * Retourne vrai si une sélection existe (elle seule décide alors des propositions).
+     */
+    private fun readSelectedWord(): Boolean {
+        val ic = ic() ?: return false
+        val selected = ic.getSelectedText(0)?.toString()
+        if (selected.isNullOrEmpty()) return false
+        contextWord = ""
+        if (!isWholeWord(selected)) {
+            strip?.clear()
+            return true
+        }
+        val before = ic.getTextBeforeCursor(CONTEXT_LOOKBACK, 0)?.toString() ?: ""
+        var j = before.length
+        while (j > 0 && !Fr.isWordChar(before[j - 1])) j--
+        var k = j
+        while (k > 0 && Fr.isWordChar(before[k - 1])) k--
+        previousWord = before.substring(k, j)
+        reselect(selected, 0, 0, selected = true)
+        return true
+    }
+
+    private fun isWholeWord(w: String): Boolean =
+        w.length in 1..MAX_WORD && w.all { Fr.isWordChar(it) } && w.any { Fr.isLetter(it) }
+
+    private fun reselect(word: String, before: Int, after: Int, selected: Boolean) {
+        reselectWord = word
+        reselectBefore = before
+        reselectAfter = after
+        reselectSelected = selected
+        updateSuggestions()
+    }
+
+    /** Remplace le mot repris par la proposition choisie, sans toucher au texte autour. */
+    private fun replaceReselected(word: String) {
+        val ic = ic() ?: return
+        val old = reselectWord
+        reselectWord = ""
+        ic.beginBatchEdit()
+        if (!reselectSelected) ic.deleteSurroundingText(reselectBefore, reselectAfter)
+        ic.commitText(word, 1)
+        ic.endBatchEdit()
+        // les variantes du tracé suivent le mot : on peut y revenir et choisir encore
+        recentGestures.remove(old)?.let { recentGestures[word] = it }
+        val prev = previousWord
+        if (mayLearn()) runBackground {
+            userDict.addWord(word)
+            if (prev.isNotEmpty()) userDict.learnBigram(prev, word)
+        }
+        lastSpaceTime = 0L
     }
 
     /**
@@ -461,6 +555,7 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
 
     override fun onKey(code: Int, output: String?) {
         val kb = keyboardView ?: return
+        reselectWord = ""
         strip?.hideBlockPrompt()
         when (code) {
             Codes.SHIFT -> return
@@ -747,6 +842,24 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
 
     // ------------------------------------------------------------ suggestions
 
+    /**
+     * Autres mots que [word] : les variantes du tracé s'il a été tracé, sinon les
+     * corrections du dictionnaire (accents, touche voisine, lettre oubliée…).
+     */
+    private fun showAlternatives(st: SuggestionStripView, word: String) {
+        val remembered = recentGestures[word]
+        if (remembered != null) {
+            ++suggestionSeq
+            st.setSuggestions(remembered.filter { it != word }.take(3), -1)
+            return
+        }
+        val seq = ++suggestionSeq
+        runBackground {
+            val alternatives = suggester.alternatives(word, 3)
+            runMain { if (seq == suggestionSeq) st.setSuggestions(alternatives, -1) }
+        }
+    }
+
     /** Signale à la vue les lettres du mot en cours, pour les mettre en couleur. */
     private fun updateHighlightedLetters() {
         val kb = keyboardView ?: return
@@ -763,12 +876,23 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
         val st = strip ?: return
         if (!prefs.suggestions || !suggestionsAllowed) { st.clear(); return }
 
+        // Mot repris (curseur dedans ou mot sélectionné) : d'autres mots que lui.
+        if (reselectWord.isNotEmpty() && composing.isEmpty()) {
+            showAlternatives(st, reselectWord)
+            return
+        }
+
         // Mot tracé : on affiche les variantes du décodeur, pas une recherche par préfixe.
         val gw = gestureWord
         val traceEnCours = gw != null &&
             (composing.toString() == gw || (composing.isEmpty() && contextWord == gw))
         if (traceEnCours && gestureAlternatives.isNotEmpty()) {
             st.setSuggestions(gestureAlternatives.take(3), 0)
+            return
+        }
+        // Curseur revenu à la fin d'un mot tracé plus tôt : ses variantes.
+        if (composing.isEmpty() && contextWord.isNotEmpty() && recentGestures.containsKey(contextWord)) {
+            showAlternatives(st, contextWord)
             return
         }
 
@@ -803,6 +927,10 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
 
     override fun onPickSuggestion(index: Int, word: String) {
         val ic = ic() ?: return
+        if (composing.isEmpty() && reselectWord.isNotEmpty()) {
+            replaceReselected(word)
+            return
+        }
         val typed = if (composing.isNotEmpty()) composing.toString() else contextWord
 
         // Ce qui suit le curseur décide de l'espace : ne pas en ajouter un deuxième,
@@ -1004,6 +1132,8 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
 
         gestureWord = word
         gestureAlternatives = alternatives
+        reselectWord = ""
+        recentGestures[word] = alternatives
         contextWord = if (composingAllowed) "" else word
         strip?.setSuggestions(alternatives.take(3), 0)
         updateHighlightedLetters()
@@ -1125,5 +1255,7 @@ open class Board36Service : InputMethodService(), KeyboardView.Listener,
         const val GRAPHEME_LOOKBACK = 16
         const val DELETE_LOOKBACK = 4000
         const val MAX_WORD = 40
+        /** Mots tracés dont on garde les variantes, pour y revenir. */
+        const val MAX_RECENT_GESTURES = 40
     }
 }

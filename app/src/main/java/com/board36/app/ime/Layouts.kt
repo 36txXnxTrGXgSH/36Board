@@ -13,7 +13,7 @@ object Layouts {
         Key(code = if (c.length == 1) c[0].code else Codes.NONE, label = c, popup = popup, hint = hint)
 
     private val ACCENTS = mapOf(
-        'a' to "àâáäãå",
+        'a' to "àâáäãåæ",
         'e' to "éèêë€",
         'i' to "îïìí",
         'o' to "ôöòóœø",
@@ -85,7 +85,8 @@ object Layouts {
         )
     )
 
-    private val NUM_POPUPS = arrayOf("¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁰")
+    /** Exposants puis fractions courantes, par appui long sur les chiffres. */
+    private val NUM_POPUPS = arrayOf("¹½⅓¼", "²⅔", "³¾", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁰∅")
 
     private fun buildPopup(c: Char, hint: String): String {
         val sb = StringBuilder()
@@ -94,31 +95,52 @@ object Layouts {
         return sb.toString()
     }
 
+    /**
+     * Variantes par appui long des touches de symboles : ce qui n'a pas de touche à soi
+     * (guillemets français, tirets, flèches, ≤ ≥ ≠, ‰, №…) se trouve sous le symbole voisin.
+     */
+    private val SYMBOL_POPUPS = mapOf(
+        '#' to "№",
+        '€' to "$£¥¢₽",
+        '&' to "§",
+        '-' to "–—_·",
+        '+' to "±",
+        '(' to "[{<",
+        ')' to "]}>",
+        '/' to "\\÷⁄",
+        '*' to "★†‡",
+        '"' to "“”«»„",
+        '\'' to "’‘`´",
+        '!' to "¡",
+        '?' to "¿",
+        '~' to "≈",
+        '|' to "¦",
+        '•' to "·◦",
+        '√' to "∛∞",
+        'π' to "Ωμ",
+        '×' to "⋅",
+        '¶' to "§",
+        '∆' to "∑",
+        '$' to "¢£¥€",
+        '^' to "ˆ",
+        '°' to "′″",
+        '=' to "≠≈",
+        '%' to "‰",
+        '<' to "«‹≤←",
+        '>' to "»›≥→"
+    )
+
+    private fun symKey(c: Char) = sym(c.toString(), popup = SYMBOL_POPUPS[c] ?: "")
+
     fun symbols(enterLabel: String? = null): KeyboardLayout {
         val rows = ArrayList<KeyRow>(4)
         rows.add(KeyRow(DIGITS.mapIndexed { i, c ->
             Key(code = c.code, label = c.toString(), popup = NUM_POPUPS[i])
         }))
-        rows.add(KeyRow("@#€_&-+()/".map { c ->
-            sym(c.toString(), popup = when (c) {
-                '€' -> "$£¥¢₽"
-                '-' -> "–—_·"
-                '+' -> "±"
-                '/' -> "\\"
-                else -> ""
-            })
-        }))
+        rows.add(KeyRow("@#€_&-+()/".map(::symKey)))
         val row3 = ArrayList<Key>()
         row3.add(Key(Codes.SYMBOLS2, label = "=\\<", weight = 1.5f, style = KeyStyle.FUNCTION))
-        "*\"':;!?".forEach { c ->
-            row3.add(sym(c.toString(), popup = when (c) {
-                '"' -> "“”«»"
-                '\'' -> "’‘"
-                '!' -> "¡"
-                '?' -> "¿"
-                else -> ""
-            }))
-        }
+        "*\"':;!?".forEach { row3.add(symKey(it)) }
         row3.add(Key(Codes.DELETE, weight = 1.5f, style = KeyStyle.FUNCTION,
             icon = KeyIcon.DELETE, repeatable = true))
         rows.add(KeyRow(row3))
@@ -126,13 +148,17 @@ object Layouts {
         return KeyboardLayout(rows)
     }
 
+    /**
+     * Seconde page. `<` et `>` y ont leur touche (la page s'annonce « =\< » depuis toujours,
+     * mais ils manquaient) ; § passe en appui long sur ¶ et sur &.
+     */
     fun symbols2(enterLabel: String? = null): KeyboardLayout {
         val rows = ArrayList<KeyRow>(4)
-        rows.add(KeyRow("~`|•√π÷×¶".map { sym(it.toString()) } + sym("∆")))
-        rows.add(KeyRow("£¥$¢^°={}\\".map { sym(it.toString()) }))
+        rows.add(KeyRow("~`|•√π÷×¶∆".map(::symKey)))
+        rows.add(KeyRow("£¥$¢^°={}\\".map(::symKey)))
         val row3 = ArrayList<Key>()
         row3.add(Key(Codes.SYMBOLS, label = "?123", weight = 1.5f, style = KeyStyle.FUNCTION))
-        "%©®™§[]".forEach { row3.add(sym(it.toString())) }
+        "%©®™[]<>".forEach { row3.add(symKey(it)) }
         row3.add(Key(Codes.DELETE, weight = 1.5f, style = KeyStyle.FUNCTION,
             icon = KeyIcon.DELETE, repeatable = true))
         rows.add(KeyRow(row3))

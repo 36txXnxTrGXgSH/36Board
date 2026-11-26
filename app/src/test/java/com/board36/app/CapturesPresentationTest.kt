@@ -141,6 +141,27 @@ class CapturesPresentationTest {
         overlay.showAccents(e, listOf("e", "é", "è", "ê", "ë", "€"), stripH.toFloat())
         save("accents.png", strip(light, listOf("été", "être", "elle")), kbAcc) { overlay.draw(it) }
 
+        // 6 bis. revenir sur un mot déjà écrit : la bande propose d'autres mots, calculés
+        // par le vrai moteur (ceux qu'affiche le téléphone pour « monde »)
+        val autres = com.board36.app.engine.Suggester(TestKeyboard.dictionary, UserDictionary(null))
+            .alternatives("monde", 3)
+        assertTrue("alternatives de « monde » : $autres", autres.size == 3)
+        save("reprise.png", strip(dark, autres, -1), keyboard(dark))
+
+        // 6 ter. la seconde page de symboles, appui long sur « < »
+        val sym = KeyboardView(context).apply {
+            theme = dark
+            val l = Layouts.symbols2()
+            desiredHeight = rowH * l.rows.size
+            setLayout(l)
+            measure(this, imgW, rowH * l.rows.size)
+        }
+        val symOverlay = PopupOverlayView(context).apply { theme = dark }
+        measure(symOverlay, imgW, stripH + rowH * 4)
+        val lt = sym.currentLayout()!!.keys.first { it.label == "<" }
+        symOverlay.showAccents(lt, listOf("<", "«", "‹", "≤", "←"), stripH.toFloat())
+        save("symboles.png", strip(dark, emptyList()), sym) { symOverlay.draw(it) }
+
         // 7. trois palettes
         for ((file, name) in listOf("theme-ocean.png" to "Océan", "theme-sable.png" to "Sable",
             "theme-violet.png" to "Violet")) {

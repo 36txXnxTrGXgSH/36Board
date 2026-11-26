@@ -10,7 +10,9 @@ peut quitter le téléphone.
 ## Fonctionnalités
 
 - **AZERTY Français (France)** : AZERTYUIOP / QSDFGHJKLM / (Maj) WXCVBN ' (Suppr),
-  rangée de chiffres optionnelle, pages de symboles (`?123` et `=\<`).
+  rangée de chiffres optionnelle, pages de symboles (`?123` et `=\<`). Tout l'ASCII
+  imprimable est joignable, et par appui long sur les symboles : « » ‹ › “ ” „ – — ≤ ≥ ≠ ≈
+  ± ‰ № § ½ ⅓ ¼ ← → et les monnaies.
 - **Saisie gestuelle (swipe)** : décodeur inspiré de SHARK², comparaison du tracé
   au chemin idéal de chaque mot (canal de position + canal de forme) pondérée par
   la fréquence. ~2 ms par mot sur JVM.
@@ -23,6 +25,10 @@ peut quitter le téléphone.
   dans [`dictionnaire/familier.md`](dictionnaire/familier.md).
 - **Suggestions et correction** : complétion, correction des touches voisines, des
   lettres oubliées, en trop ou inversées, rétablissement des accents.
+- **Revenir sur un mot** : posez le curseur dans un mot déjà écrit, ou sélectionnez-le,
+  et la bande propose d'autres mots ; en toucher un remplace le mot entier. Pour un mot
+  tracé, ce sont les variantes du tracé qui reviennent — on corrige un swipe raté sans
+  le retaper.
 - **Apprentissage** : dictionnaire personnel (mots + enchaînements) stocké localement,
   consultable et modifiable dans l'application.
 - **Accents par appui long** sur chaque lettre (é è ê ë, à â, ç, ù û…).
